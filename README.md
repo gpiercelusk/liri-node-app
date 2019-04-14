@@ -1,6 +1,5 @@
 # liri-node-app
  LIRI Bot  
- LIRI Bot
 
 ### Overview
 
