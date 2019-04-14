@@ -2,7 +2,7 @@
   "name": "liri-node-app",
   "version": "1.0.0",
   "description": "LIRI Bot",
-  "main": "index.js",
+  "main": "liri.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,10 +19,8 @@
   "homepage": "https://github.com/gpiercelusk/liri-node-app#readme",
   "dependencies": {
     "axios": "^0.18.0",
-    "bandsintown": "^1.0.1",
     "dotenv": "^7.0.0",
     "moment": "^2.24.0",
-    "node-spotify-api": "^1.0.9",
-    "omdb": "^0.8.0"
+    "node-spotify-api": "^1.0.9"
   }
 }
