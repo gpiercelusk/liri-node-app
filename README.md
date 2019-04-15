@@ -7,7 +7,3 @@ In this assignment, you will make LIRI. LIRI is like iPhone's SIRI. However, whi
 
 ### Screenshots
 
-![First screen]
-(assets/firstScreen.png "first screen")
-![Spotify search with and without input]
-(../assets/spotify-this-song-without-and-with-input.png "Spotify search with and without input")
