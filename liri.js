@@ -116,8 +116,8 @@ function logEntry(entry) {
   fs.appendFileSync("./log.txt", newLine, function (err) {
     if (err) throw err;
   });
-  console.log("Your data was written to file!");
-  console.log(newLine + entry + newLine);
+  // console.log("Your data was written to file!");
+  console.log(entry + newLine);
 
 }
 
