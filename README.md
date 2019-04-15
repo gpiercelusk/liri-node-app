@@ -7,4 +7,4 @@ In this assignment, you will make LIRI. LIRI is like iPhone's SIRI. However, whi
 
 ### Screenshots
 
-![First screen("/assets/concert-this-no-input.png")
+![First screen]("/assets/concert-this-no-input.png")
