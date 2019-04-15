@@ -1,0 +1,11 @@
+
+ Search Time: 04/15/2019 14:24
+Command: spotify-this-song
+Search Parameter: "I Want it That Way"
+
+ ---------------------------------------
+Artist: Backstreet Boys
+Song Name: I Want It That Way
+Preview: https://p.scdn.co/mp3-preview/e72a05dc3f69c891e3390c3ceaa77fad02f6b5f6?cid=4e1b9aba35b04af78aac055ff91a30be
+Album: The Hits--Chapter One
+ ---------------------------------------

@@ -11,106 +11,209 @@ const axios = require("axios");
 
 const moment = require("moment");
 
-let input = process.argv;
-let command = process.argv[2];
+const inquirer = require("inquirer");
 
-let name = "";
+let songSearch = "";
 
-switch (command) {
-  case "concert-this":
-    setName();
-    concertThis(name);
-    break;
+let movieSearch = "";
 
-  case "spotify-this-song":
-    setName();
-    spotifyThis(name);
-    break;
+let bandSearch = "";
 
-  case "movie-this":
-    setName();
-    movieThis(name);
-    break;
+let newLine = "\n ---------------------------------------\n";
 
-  case "do-what-it-says":
-    doThis();
-    break;
+let input = "";
 
-  default:
-    console.log("");
-    console.log("Your choices are: 'concert-this (artist)', 'spotify-this-song (song)', 'movie-this (movie)', 'do-what-it-says'");
-    console.log("");
-}
-
-function setName() {
-  for (var i = 3; i < input.length; i++) {
-    if (i > 3 && i < input.length) {
-      name = name + "+" + input[i];
-    }
-    else {
-      name += input[i];
-    }
-  }
-}
-
-function concertThis(name) {
-  if (name === "") {
-    name = "Between The Buried and Me";
-  }
-  // console.log(name)
-  let band = name.split("+").join(" ");
-  // console.log(band)
-  let search = "https://rest.bandsintown.com/artists/" + name + "/events?app_id=codingbootcamp"
-
-  axios.get(search).then(function (response) {
-    console.log("")
-    console.log("Artist: " + band);
-    console.log("---------------------")
-    for (var i = 0; i < 9; i++) {
-      var date = moment(response.data[i].datetime, "YYYY-MM-DDTHH:mm:SS").format("MM/DD/YYYY")
-      console.log(response.data[i].venue.city);
-      console.log(response.data[i].venue.name)
-      console.log(date)
-      console.log("---------------------")
-    }
-  })
-    .catch(function (err) {
-      if (err.response) {
-        console.log("")
-        console.log("Could not find shows for " + band)
-        console.log("")
+function selection() {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        message:
+          "Please select one of the following options: ",
+        choices: [
+          "spotify-this-song",
+          "concert-this",
+          "movie-this",
+          "do-what-it-says"
+        ],
+        name: "liri"
       }
-
+    ])
+    .then(function (answers) {
+      if (answers.liri === "do-what-it-says") {
+        doThis();
+        return;
+      } else {
+        liri = answers.liri;
+        inquirer
+          .prompt([
+            {
+              message: "What would you like to search for?",
+              name: "input"
+            }
+          ])
+          .then(function (response) {
+            input = response.input;
+            liriSelect(liri);
+          });
+      }
     });
-
 }
+function liriSelect(liri) {
+  checkInput();
 
-function spotifyThis(name) {
-  if (name === "") {
-    name = "Ace of Base The Sign";
+  switch (liri) {
+    case "spotify-this-song":
+      spotifyAPI();
+      break;
+    case "concert-this":
+      bandsInTownAPI();
+      break;
+    case "movie-this":
+      omdbAPI();
+      break;
   }
-  var song = name.split("+").join("");
+}
 
-  spotify.search({
-    type: "track",
-    query: name,
-    limit: 1
-  }, function (err, data) {
-    if (err) {
-      return console.log("Could not find song: " + err);
-    }
-    console.log("");
-    console.log("-----------------------------------");
-    console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
-    console.log("Song: " + data.tracks.items[0].name);
-    console.log("Album: " + data.tracks.items[0].album.name);
-    if (data.tracks.items[0].preview_url) {
-      console.log("Sample: " + data.tracks.items[0].preview_url);
-    } else {
-      console.log("Sample:  Sorry no sample available for " + song);
-    }
-    console.log("-----------------------------------");
-    console.log("");
+function checkInput() {
+  if (input) {
+    songSearch = input;
+    movieSearch = input;
+    bandSearch = input;
+  } else {
+    songSearch = "The Sign Ace of Base";
+    movieSearch = "Mr. Nobody";
+    bandSearch = "Between the Buried and Me";
+  }
+}
+
+function timestamp() {
+  let time = moment()
+    .local()
+    .format("MM/DD/YYYY HH:mm");
+  let timeStamp = String(
+    "\n Search Time: " +
+    time +
+    "\nCommand: " +
+    liri +
+    "\nSearch Parameter: " +
+    input
+  );
+
+  fs.appendFileSync("./log.txt", timeStamp, function (err) {
+    if (err) throw err;
   });
+}
+
+function logEntry(entry) {
+
+  fs.appendFileSync("./log.txt", newLine, function (err) {
+    if (err) throw err;
+  });
+  fs.appendFileSync("./log.txt", entry, function (err) {
+    if (err) throw err;
+  });
+  fs.appendFileSync("./log.txt", newLine, function (err) {
+    if (err) throw err;
+  });
+  console.log("Your data was written to file!");
+  console.log(newLine + entry + newLine);
 
 }
+
+function bandsInTownAPI() {
+  timestamp();
+
+  axios
+    .get(
+      "https://rest.bandsintown.com/artists/" +
+      bandSearch +
+      "/events?app_id=codingbootcamp"
+    )
+    .then(function (response) {
+      response.data.forEach(function (result) {
+        var concert = result.venue;
+        var date = moment(result.datetime).format("MM/DD/YYYY");
+
+        var concertEntry = [
+          "Venue: " + concert.name,
+          "Location: " +
+          concert.city +
+          " " +
+          concert.region +
+          " " +
+          concert.region +
+          " " +
+          concert.country,
+          "Date: " + date
+        ].join("\n");
+
+        logEntry(concertEntry);
+      });
+    });
+}
+
+function spotifyAPI() {
+  timestamp();
+
+  spotify
+    .search({
+      type: "track",
+      query: songSearch,
+      limit: 1
+    })
+    .then(function (response, err) {
+      if (err) console.log(err);
+      var songArr = response.tracks.items[0];
+
+      var songEntry = [
+        "Artist: " + songArr.artists[0].name,
+        "Song Name: " + songArr.name,
+        "Preview: " + songArr.preview_url,
+        "Album: " + songArr.album.name
+      ].join("\n");
+
+      logEntry(songEntry);
+    });
+}
+
+function omdbAPI() {
+  axios
+    .get(
+      "http://www.omdbapi.com/?t=" +
+      movieSearch +
+      "&y=&plot=short&apikey=trilogy"
+    )
+    .then(function (response) {
+      var movie = response.data;
+
+      var movieEntry = [
+        "Title: " + movie.Title,
+        "Year: " + movie.Year,
+        movie.Ratings[0].Value + "(IMDB)",
+        movie.Ratings[1].Value + " (Rotten Tomatoes)",
+        "Filmed in: " + movie.Country,
+        "Summary: " + movie.Plot,
+        "Starring: " + movie.Actors
+      ].join("\n");
+
+      timestamp();
+      logEntry(movieEntry);
+    });
+}
+
+function doThis() {
+  var randomArr = [];
+  fs.readFile("./random.txt", "utf8", function (err, data) {
+    if (err) {
+      throw err;
+    } else {
+      randomArr = data.split(",");
+      input = randomArr[1];
+      liri = randomArr[0];
+      liriSelect(liri);
+    }
+  });
+}
+
+selection();
