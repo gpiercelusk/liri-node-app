@@ -1045,3 +1045,13 @@ Venue: Coral Sky Amphitheatre
 Location: West Palm Beach FL FL United States
 Date: 08/30/2019
  ---------------------------------------
+
+ Search Time: 04/15/2019 16:17
+Command: spotify-this-song
+Search Parameter: 
+ ---------------------------------------
+Artist: Ace of Base
+Song Name: The Sign
+Preview: https://p.scdn.co/mp3-preview/4c463359f67dd3546db7294d236dd0ae991882ff?cid=4e1b9aba35b04af78aac055ff91a30be
+Album: The Sign (US Album) [Remastered]
+ ---------------------------------------
