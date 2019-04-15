@@ -7,4 +7,4 @@ In this assignment, you will make LIRI. LIRI is like iPhone's SIRI. However, whi
 
 ### Screenshots
 ![Spotify search with and without input]
-(https://github.com/gpiercelusk/liri-node-app/blob/master/Screenshots/spotify-this-song-without-and-with-input.png)
+(../assets/spotify-this-song-without-and-with-input.png "Spotify search with and without input")
