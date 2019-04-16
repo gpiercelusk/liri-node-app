@@ -146,7 +146,7 @@ function bandsInTownAPI() {
           " " +
           concert.country,
           "Date: " + date
-        ].join("\n");
+        ].join("\n\n");
 
         logEntry(concertEntry);
       });
@@ -171,7 +171,7 @@ function spotifyAPI() {
         "Song Name: " + songArr.name,
         "Preview: " + songArr.preview_url,
         "Album: " + songArr.album.name
-      ].join("\n");
+      ].join("\n\n");
 
       logEntry(songEntry);
     });
@@ -195,7 +195,7 @@ function omdbAPI() {
         "Filmed in: " + movie.Country,
         "Summary: " + movie.Plot,
         "Starring: " + movie.Actors
-      ].join("\n");
+      ].join("\n\n");
 
       timestamp();
       logEntry(movieEntry);
