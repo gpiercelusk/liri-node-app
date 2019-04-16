@@ -132,10 +132,10 @@ function bandsInTownAPI() {
     )
     .then(function (response) {
       response.data.forEach(function (result) {
-        var concert = result.venue;
-        var date = moment(result.datetime).format("MM/DD/YYYY");
+        let concert = result.venue;
+        let date = moment(result.datetime).format("MM/DD/YYYY");
 
-        var concertEntry = [
+        let concertEntry = [
           "Venue: " + concert.name,
           "Location: " +
           concert.city +
@@ -164,9 +164,9 @@ function spotifyAPI() {
     })
     .then(function (response, err) {
       if (err) console.log(err);
-      var songArr = response.tracks.items[0];
+      let songArr = response.tracks.items[0];
 
-      var songEntry = [
+      let songEntry = [
         "Artist: " + songArr.artists[0].name,
         "Song Name: " + songArr.name,
         "Preview: " + songArr.preview_url,
@@ -185,9 +185,9 @@ function omdbAPI() {
       "&y=&plot=short&apikey=trilogy"
     )
     .then(function (response) {
-      var movie = response.data;
+      let movie = response.data;
 
-      var movieEntry = [
+      let movieEntry = [
         "Title: " + movie.Title,
         "Year: " + movie.Year,
         movie.Ratings[0].Value + "(IMDB)",
@@ -203,7 +203,7 @@ function omdbAPI() {
 }
 
 function doThis() {
-  var randomArr = [];
+  let randomArr = [];
   fs.readFile("./random.txt", "utf8", function (err, data) {
     if (err) {
       throw err;
